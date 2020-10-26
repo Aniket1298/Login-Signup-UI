@@ -4,13 +4,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
-
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+const axios = require('axios');
 
 class LoginForm extends Component {
     constructor(props){
@@ -19,21 +13,10 @@ class LoginForm extends Component {
     this.state={email:'',password:'',errors:""}
     }
     handleSubmit(event){
-        this.setState({errors:this.state.email})
-        fetch('http://localhost:4000/api/user/login',{
-            method:"POST",
-            body:{
-                "name":this.state.email,
-                "password":this.state.password
-            }
-        }).then(data =>  { 
-
-            if(data){ //here!
-                 redirect: window.location.replace("../Sample/home.html") 
-            } else{
-                alert("Invalid Email or Password");
-            }
-        }) 
+        axios.post('http://localhost:4000/api/user/login',{
+            "email":this.state.email,
+            "password":this.state.password
+        });
     }
     render() {
         return (
@@ -57,7 +40,7 @@ class LoginForm extends Component {
                 <br/>
                 <RaisedButton label="Submit" primary={true} style={style} onClick={(event) => this.handleSubmit(event)}/>
             </div>
-       
+            <p>{this.errors}</p>
             </MuiThemeProvider>
         
         </div>
