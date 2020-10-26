@@ -8,9 +8,9 @@ class SignupForm extends Component {
     constructor(props){
         super(props);
     this.state={email:'',password:'',errors:""}
-    }
+    } 
     handleClick(event){
-        this.setState({errors:this.state.email})
+        this.setState({errors:''})
     }
     render() {
         return (
@@ -34,7 +34,6 @@ class SignupForm extends Component {
                 <RaisedButton label="Submit" primary={true} style={style} onClick={(event) => this.handleClick(event)}/>
             </div>
             </MuiThemeProvider>
-        <h1> {this.state.errors} HEllo</h1>
         </div>
         );
     }
