@@ -4,19 +4,30 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+import { useHistory } from "react-router-dom";
+import { withRouter } from 'react-router';
+
+
 const axios = require('axios');
 
 class LoginForm extends Component {
     constructor(props){
     super(props);
     this.handleSubmit=this.handleSubmit.bind(this)
-    this.state={email:'',password:'',errors:""}
+    this.state={email:'',password:'',errors:null,loginstate:false}
     }
     handleSubmit(event){
+        
+        
         axios.post('http://localhost:4000/api/user/login',{
             "email":this.state.email,
             "password":this.state.password
-        });
+        }) .then(res => {
+            if (res.status==400){this.setState({ errors:res.data });}
+            else{localStorage.setItem('token',res.data.token);alert(localStorage.getItem('token'));this.props.history.push('/home')}
+          })
+
+      
     }
     render() {
         return (
@@ -25,10 +36,12 @@ class LoginForm extends Component {
             <div>
             
             <h1>Login</h1>
+            
+            <p style={{color:"red"}}>{this.state.errors}</p>
             <TextField
                 hintText="Enter your Email"
                 floatingLabelText="Email"
-                onChange = {(event,newValue) => this.setState({email:newValue,errors:newValue})}
+                onChange = {(event,newValue) => this.setState({email:newValue})}
                 />
             <br/>
                 <TextField
@@ -40,7 +53,7 @@ class LoginForm extends Component {
                 <br/>
                 <RaisedButton label="Submit" primary={true} style={style} onClick={(event) => this.handleSubmit(event)}/>
             </div>
-            <p>{this.errors}</p>
+            
             </MuiThemeProvider>
         
         </div>
@@ -50,5 +63,4 @@ class LoginForm extends Component {
 const style = {
  margin: 15,
 };
-
-export default LoginForm;
+export default withRouter(LoginForm);

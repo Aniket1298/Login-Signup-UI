@@ -4,28 +4,41 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+import { withRouter } from 'react-router';
+
+import { ImageCropFree } from 'material-ui/svg-icons';
+
 const axios = require('axios');
 class SignupForm extends Component {
     constructor(props){
         super(props);
         this.handleSubmit=this.handleSubmit.bind(this)
-    this.state={name:'',email:'',password:'',errors:""}
+    this.state={name:'',email:'',password:'',errors:"A"}
         
     } 
+    
     handleSubmit(event){
-       
-        alert(this.state.name+this.state.email+this.state.password)
-        axios.post('http://localhost:4000/api/user/register',{
+        this.props.history.push('/home')
+        const data =axios.post('http://localhost:4000/api/user/register',{
             "name":this.state.name,
             "email":this.state.email,
             "password":this.state.password
-        })
+        }).then(res => {
+            if (res.status==400) {this.setState({ errors:res.data });}
+            if (res.status==200){alert("Account Created Successfully")
+        this.props.history.push('/')}
+            
+          })
+        alert(data.data)
+        
+      
     }
     render(){ 
         return (
         <div>
             <MuiThemeProvider>
             <div>
+            {process.env.SECRET_KEY}
             <h1>SignUp</h1>
             <TextField
                 hintText="Name"
@@ -58,5 +71,4 @@ const style = {
  margin: 15,
 };
 
-
-export default SignupForm;
+export default withRouter(SignupForm);

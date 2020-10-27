@@ -2,7 +2,6 @@ import React ,{Component} from 'react';
 //import logo from './logo.svg';
 import './App.css';
 import LoginForm from './components/login.js';
-import {Test,X,Y} from './components/test';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -17,16 +16,15 @@ class App extends Component{
   }
   loginclick(event){
 
-    this.state.login=1;this.state.register=0;
+    this.setstate({login:1 ,register:0})
 
   }
-  signupclick(event){this.state.register=1;this.state.login=1;}
   handleClick(event){
-    if (event=="login"){this.setState({login:1,register:0});}
+    if (event==="login"){this.setState({login:1,register:0});}
     else this.setState({login:0,register:1})
   }
   auth(){
-    if (this.state.register==0){return <LoginForm/>}
+    if (this.state.register===0){return <LoginForm/>}
     else {return <SignupForm/>}
   }
   render(){

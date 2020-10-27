@@ -3,14 +3,15 @@ import ReactDOM from 'react-dom'
 import './index.css'
 import App from './App'
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
-import LoginForm from './components/login.js';
-import SignupForm from './components/signup';
-import {Test,X,Y} from './components/test';
+import HomePage from './components/homepage'
+const dotenv = require('dotenv')
+dotenv.config()
 const routing = (
   <Router>
     <div>
       <Route exact path="/" component={App} />
-      <Route exact path="/test" component={Test} />
+      <Route exact path="/home" component={HomePage} />
+      
     </div>
   </Router>
 )
