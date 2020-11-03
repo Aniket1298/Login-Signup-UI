@@ -13,55 +13,47 @@ class SignupForm extends Component {
     constructor(props){
         super(props);
         this.handleSubmit=this.handleSubmit.bind(this)
-    this.state={name:'',email:'',password:'',errors:"A"}
+    this.state={name:'',email:'',password:'',errors:""}
         
     } 
     
     handleSubmit(event){
-        this.props.history.push('/home')
-        const data =axios.post('http://localhost:4000/api/user/register',{
-            "name":this.state.name,
-            "email":this.state.email,
-            "password":this.state.password
-        }).then(res => {
-            if (res.status==400) {this.setState({ errors:res.data });}
-            if (res.status==200){alert("Account Created Successfully")
-        this.props.history.push('/')}
-            
+        const body ={"name":this.state.name,"email":this.state.email,"password":this.state.password}
+        axios.post('http://localhost:4000/api/user/register',body).then(res => {
+            if (res.data=="Created"){
+                this.props.history.push('/login')}
+            else{this.setState({errors:res.data})}
           })
-        alert(data.data)
-        
-      
     }
     render(){ 
         return (
         <div>
             <MuiThemeProvider>
             <div>
-            {process.env.SECRET_KEY}
             <h1>SignUp</h1>
+            <p style={{color:"red"}}>{this.state.errors}</p>
             <TextField
                 hintText="Name"
                 floatingLabelText="Name"
-                onChange = {(event,newValue) => this.setState({name:newValue})}
+                onChange = {(event,newValue) => this.setState({name:newValue,errors:''})}
                 />
             <br/>
             <TextField
                 hintText="Enter your Email"
                 floatingLabelText="Email"
-                onChange = {(event,newValue) => this.setState({email:newValue})}
+                onChange = {(event,newValue) => this.setState({email:newValue,errors:''})}
                 />
             <br/>
                 <TextField
                 type="password"
                 hintText="Enter your Password"
                 floatingLabelText="Password"
-                onChange = {(event,newValue) => this.setState({password:newValue})}
+                onChange = {(event,newValue) => this.setState({password:newValue,errors:''})}
                 />
                 <br/>
                 <RaisedButton label="Submit" primary={true} style={style} onClick={(event) => this.handleSubmit(event)}/>
             </div>
-            <p>{this.state.errors}</p>
+            
             </MuiThemeProvider>
         </div>
         );

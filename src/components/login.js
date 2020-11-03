@@ -14,20 +14,22 @@ class LoginForm extends Component {
     constructor(props){
     super(props);
     this.handleSubmit=this.handleSubmit.bind(this)
-    this.state={email:'',password:'',errors:null,loginstate:false}
+    this.state={email:'',password:'',errors:'',loginstate:false}
     }
     handleSubmit(event){
-        
-        
         axios.post('http://localhost:4000/api/user/login',{
             "email":this.state.email,
             "password":this.state.password
-        }) .then(res => {
+        }).then(res => {
+            alert("Hello")
             if (res.status==400){this.setState({ errors:res.data });}
-            else{localStorage.setItem('token',res.data.token);alert(localStorage.getItem('token'));this.props.history.push('/home')}
-          })
-
-      
+            else{localStorage.setItem('token',res.data.token)
+            //alert(localStorage.getItem('token'))  
+            this.props.history.push('/upload')}
+          }).catch(error=>{
+          
+            this.setState({ errors:'Invalid Credentials' })
+        });
     }
     render() {
         return (
@@ -36,8 +38,6 @@ class LoginForm extends Component {
             <div>
             
             <h1>Login</h1>
-            
-            <p style={{color:"red"}}>{this.state.errors}</p>
             <TextField
                 hintText="Enter your Email"
                 floatingLabelText="Email"
@@ -53,7 +53,7 @@ class LoginForm extends Component {
                 <br/>
                 <RaisedButton label="Submit" primary={true} style={style} onClick={(event) => this.handleSubmit(event)}/>
             </div>
-            
+            <p style={{color:"red"}}> {this.state.errors}</p>
             </MuiThemeProvider>
         
         </div>
