@@ -3,11 +3,11 @@ import React ,{Component} from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
+
 import TextField from 'material-ui/TextField';
 import { useHistory } from "react-router-dom";
 import { withRouter } from 'react-router';
-
-
+const dotenv = require('dotenv').config()
 const axios = require('axios');
 
 class LoginForm extends Component {
@@ -21,13 +21,12 @@ class LoginForm extends Component {
             "email":this.state.email,
             "password":this.state.password
         }).then(res => {
-            alert("Hello")
+           
             if (res.status==400){this.setState({ errors:res.data });}
             else{localStorage.setItem('token',res.data.token)
             //alert(localStorage.getItem('token'))  
             this.props.history.push('/upload')}
           }).catch(error=>{
-          
             this.setState({ errors:'Invalid Credentials' })
         });
     }
@@ -36,19 +35,18 @@ class LoginForm extends Component {
         <div>
             <MuiThemeProvider>
             <div>
-            
             <h1>Login</h1>
             <TextField
                 hintText="Enter your Email"
                 floatingLabelText="Email"
-                onChange = {(event,newValue) => this.setState({email:newValue})}
+                onChange = {(event,newValue) => this.setState({email:newValue,errors:""})}
                 />
             <br/>
                 <TextField
                 type="password"
                 hintText="Enter your Password"
                 floatingLabelText="Password"
-                onChange = {(event,newValue) => this.setState({password:newValue})}
+                onChange = {(event,newValue) => this.setState({password:newValue,errors:""})}
                 />
                 <br/>
                 <RaisedButton label="Submit" primary={true} style={style} onClick={(event) => this.handleSubmit(event)}/>

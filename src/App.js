@@ -4,41 +4,41 @@ import './App.css';
 import LoginForm from './components/login.js';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
+import { Toolbar,Button,Typography,IconButton } from '@material-ui/core';
+
+import { withRouter } from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
 import SignupForm from './components/signup';
 
 class App extends Component{
   constructor(props) {
     super(props);
-    this.state = {login:0,register:0,logcolor:"blue"};
-    this.auth=this.auth.bind(this)
-    this.handleClick=this.handleClick.bind(this)
+    this.handleAuth=this.handleAuth.bind(this)
+    this.handleHome=this.handleHome.bind(this)
+
   }
-  loginclick(event){
-    this.setstate({login:1 ,register:0})
+  
+  handleAuth(){
+    this.props.history.push('/auth')
   }
-  handleClick(event){
-    if (event==="login"){this.setState({login:1,register:0});}
-    else this.setState({login:0,register:1})
-  }
-  auth(){
-    if (this.state.register===0){return <LoginForm/>}
-    else {return <SignupForm/>}
+  handleHome(){
+    this.props.history.push('/home')
   }
   render(){
     return(
-      
     <div className="App">
     
       <MuiThemeProvider>
-      <AppBar title="BlockHealth"/>
-      <div className="row">
-      
-      <RaisedButton label="Login" primary={true} style={{margin:'2%'}} onClick={(event) => this.handleClick('login')}/>
 
-      <RaisedButton  label="Signup" primary={true} style={{margin:'2%'}} onClick={(event)=>this.handleClick("signup")}/>
+      <AppBar position="static">
+        <Toolbar>
+          <Button onClick={() => this.handleAuth() } color="inherit">Login/Signup</Button>
+          <Button onClick={() => this.handleHome() } color="green" style={{textDecorationColor:"white"}}>Home</Button>
+        </Toolbar>
+      </AppBar>
+      <h2 style={{color:"indianred",fontFamily:"fantasy",fontSize:"40px"}}> Healthblock - Securing Medical Data</h2>
+         <div className="row">
       </div>
-      <this.auth/>
       </MuiThemeProvider>
 
     </div>
@@ -46,4 +46,4 @@ class App extends Component{
   }
 }
 
-export default App;
+export default withRouter(App);
