@@ -5,7 +5,6 @@ import LoginForm from './components/login.js';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
 import { Toolbar,Button,Typography,IconButton } from '@material-ui/core';
-
 import { withRouter } from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
 import SignupForm from './components/signup';
@@ -27,20 +26,18 @@ class App extends Component{
   render(){
     return(
     <div className="App">
-    
       <MuiThemeProvider>
-
       <AppBar position="static">
         <Toolbar>
+          
           <Button onClick={() => this.handleAuth() } color="inherit">Login/Signup</Button>
           <Button onClick={() => this.handleHome() } color="green" style={{textDecorationColor:"white"}}>Home</Button>
         </Toolbar>
       </AppBar>
-      <h2 style={{color:"indianred",fontFamily:"fantasy",fontSize:"40px"}}> Healthblock - Securing Medical Data</h2>
+      <h2 style={{color:"indianred",fontFamily:"fantasy",fontSize:"40px"}}> Healthblock - Securing HealthCare Data</h2>
          <div className="row">
       </div>
       </MuiThemeProvider>
-
     </div>
     );  
   }

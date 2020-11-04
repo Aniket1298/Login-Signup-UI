@@ -20,7 +20,6 @@ class LoginPage extends Component{
             </div>
         );
     }
-
 }
 
 export default withRouter(LoginPage);
